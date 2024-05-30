@@ -1,0 +1,244 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Report.aspx.cs" Inherits="modules_staff_Report" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <script src="../../scripts/highcharts.js" type="text/javascript"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+    
+
+    <h1 class='page-header'>รายงานสรุปภาพรวมโครงการทั้งหมด</h1>
+
+    <div id='container'></div>
+
+    <div class='table-responsive'>
+            <table class='table'>
+
+        
+            <tr bgcolor='#efefef'>
+                <td>
+                    ปีการศึกษา
+                </td>
+                <td align='center'>
+                    <font>จำนวนกิจกรรม</font>
+                </td>
+                <td align='center'>
+                    จำนวนชั่วโมงกิจกรรม
+                </td>
+                <td>
+                    จำนวนนักศึกษาเข้าร่วมกิจกรรม (ครั้ง)
+                </td>
+                <td>
+                    งบประมาณ
+                </td>
+            </tr>
+           
+            <tr bgcolor='#f7f8f9'>
+                <td>
+                    <font color='#025ebc'><a href='report_detail.php?projyear=58'>2558</a></font>
+                </td>
+                <td align='right'>
+                    525 กิจกรรม
+                </td>
+                <td align='right'>
+                    <font color='#025ebc'>6,739 ชั่วโมง
+                </td>
+                <td align='right'>
+                    76,819 ครั้ง
+                </td>
+                <td align='right'>
+                    <a href='report_finance_detail.php?projyear=58'>17,018,305</a> บาท
+                </td>
+            </tr>
+            <tr bgcolor='#f7f8f9'>
+                <td>
+                    <font color='#025ebc'><a href='report_detail.php?projyear=57'>2557</a></font>
+                </td>
+                <td align='right'>
+                    469 กิจกรรม
+                </td>
+                <td align='right'>
+                    <font color='#025ebc'>6,674 ชั่วโมง
+                </td>
+                <td align='right'>
+                    79,983 ครั้ง
+                </td>
+                <td align='right'>
+                    <a href='report_finance_detail.php?projyear=57'>13,825,947</a> บาท
+                </td>
+            </tr>
+            <tr bgcolor='#f7f8f9'>
+                <td>
+                    <font color='#025ebc'><a href='report_detail.php?projyear=56'>2556</a></font>
+                </td>
+                <td align='right'>
+                    497 กิจกรรม
+                </td>
+                <td align='right'>
+                    <font color='#025ebc'>7,096 ชั่วโมง
+                </td>
+                <td align='right'>
+                    91,052 ครั้ง
+                </td>
+                <td align='right'>
+                    <a href='report_finance_detail.php?projyear=56'>10,846,289</a> บาท
+                </td>
+            </tr>
+            <tr bgcolor='#f7f8f9'>
+                <td>
+                    <font color='#025ebc'><a href='report_detail.php?projyear=55'>2555</a></font>
+                </td>
+                <td align='right'>
+                    555 กิจกรรม
+                </td>
+                <td align='right'>
+                    <font color='#025ebc'>7,326 ชั่วโมง
+                </td>
+                <td align='right'>
+                    103,995 ครั้ง
+                </td>
+                <td align='right'>
+                    <a href='report_finance_detail.php?projyear=55'>19,490,172</a> บาท
+                </td>
+            </tr>
+            <tr bgcolor='#f7f8f9'>
+                <td>
+                    <font color='#025ebc'><a href='report_detail.php?projyear=54'>2554</a></font>
+                </td>
+                <td align='right'>
+                    475 กิจกรรม
+                </td>
+                <td align='right'>
+                    <font color='#025ebc'>6,297 ชั่วโมง
+                </td>
+                <td align='right'>
+                    101,193 ครั้ง
+                </td>
+                <td align='right'>
+                    <a href='report_finance_detail.php?projyear=54'>11,833,853</a> บาท
+                </td>
+            </tr>
+            <tr bgcolor='#f7f8f9'>
+                <td>
+                    <font color='#025ebc'><a href='report_detail.php?projyear=53'>2553</a></font>
+                </td>
+                <td align='right'>
+                    542 กิจกรรม
+                </td>
+                <td align='right'>
+                    <font color='#025ebc'>6,864 ชั่วโมง
+                </td>
+                <td align='right'>
+                    68,003 ครั้ง
+                </td>
+                <td align='right'>
+                    <a href='report_finance_detail.php?projyear=53'>10,817,380</a> บาท
+                </td>
+            </tr>
+            <tr bgcolor='#f7f8f9'>
+                <td>
+                    <font color='#025ebc'><a href='report_detail.php?projyear=52'>2552</a></font>
+                </td>
+                <td align='right'>
+                    465 กิจกรรม
+                </td>
+                <td align='right'>
+                    <font color='#025ebc'>5,783 ชั่วโมง
+                </td>
+                <td align='right'>
+                    43,979 ครั้ง
+                </td>
+                <td align='right'>
+                    <a href='report_finance_detail.php?projyear=52'>8,412,440</a> บาท
+                </td>
+            </tr>
+            <tr bgcolor='#f7f8f9'>
+                <td>
+                    <font color='#025ebc'><a href='report_detail.php?projyear=51'>2551</a></font>
+                </td>
+                <td align='right'>
+                    27 กิจกรรม
+                </td>
+                <td align='right'>
+                    <font color='#025ebc'>398 ชั่วโมง
+                </td>
+                <td align='right'>
+                    60 ครั้ง
+                </td>
+                <td align='right'>
+                    <a href='report_finance_detail.php?projyear=51'>203,178</a> บาท
+                </td>
+            </tr>
+        </table>
+        *คลิกเลือกปีการศึกษาเพื่อดูรายละเอียด </td></tr> </table><br>
+        <br>
+        <br>
+        <input type='hidden' name='std_idno' value=''>
+    </form>
+    </td></tr><tr>
+        <td colspan='2' height='2' bgcolor='#edc253'>
+        </td>
+    </tr>
+    </table>
+
+    </div>
+
+
+    </form>
+</body>
+</html>
+
+
+<script type="text/javascript">
+
+    Highcharts.chart('container', {
+
+        title: {
+            text: 'รายงานแสดงจำนวนกิจกรรม จำนวนชั่วโมงกิจกรรม จำนวนนักศึกษาเข้าร่วมกิจกรรม'
+        },
+
+        subtitle: {
+            text: 'ปีการศึกษา, 2551-2558'
+        },
+
+        yAxis: {
+            title: {
+                text: 'จำนวนกิจกรรม'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                pointStart: 2551
+            }
+        },
+
+        series: [{
+            name: 'A1',
+            data: [127, 398, 160, 121,234,234,122,233]
+        }, {
+            name: 'A2',
+            data: [398, 064, 242, 2342, 169,345,234,233]
+        }, {
+            name: 'A3',
+            data: [600, 722, 105,131,121,234,567,345]
+        }, {
+            name: 'A4',
+            data: [null, null, 988, 169,null,234,45,678]
+        }, {
+            name: 'Other',
+            data: [108, 548, 805, 248,123,456,666,908]
+        }]
+
+    });
+  </script>

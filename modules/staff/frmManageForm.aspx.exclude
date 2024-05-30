@@ -1,0 +1,739 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmManageForm.aspx.cs" Inherits="modules_staff_frmManageForm" %>
+
+<%/*
+   *********************** Read me **************************
+   *- Edit point Ctrl + F and type 
+   *    "GOTO001" - ผูกข้อมูลชื่อคำถาม
+   *    "GOTO002" - จัดการประเภทคำถาม และแสดงคำตอบของคำถาม*
+   */ %>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Evaluation - <%= Request["formid"] != null ? "แก้ไขแบบฟอร์มการประเมิน" : "สร้างแบบฟอร์มการประเมิน" %></title>
+</head>
+<body>
+    <div runat="server" id="divBanner" class="container-fulid"></div>
+    <div class="container-fulid site-content">
+        <div class="side-menu-panel" id="divSiteMenu" runat="server"></div>
+        <div class="side-content-panel">
+            <div id="divBreadcrumb" runat="server"></div>
+            <div id="divNavbar" runat="server"></div>
+            <div class="tab-content">
+                <div style="margin-top: 1em;">
+                    <div>
+                        <a href="frmEvaluation.aspx" class="btn btn-danger" id="btnAddNewEva" style="border-radius: 0 20px 20px 0;" runat="server">
+                            <i class="glyphicon glyphicon-chevron-left"></i>
+                            ย้อนกลับ
+                        </a>
+                    </div>
+                    <h3><%= Request["formid"] != null ? "แก้ไขแบบประเมิน" : "สร้างแบบประเมิน" %></h3>
+                </div>
+                <form class="form-horizontal">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div>
+                                <%-- ประเภทแบบประเมิน --%>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">ประเภทแบบประเมิน</label>
+                                    <div class="col-sm-10">
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-info active btnEvaType">
+                                                <input type="radio" name="rdbEvaType" id="option1" value="TYS001" checked="checked" />
+                                                <i class="glyphicon glyphicon-book"></i>&nbsp;แบบประเมินรายวิชา
+                                            </label>
+                                            <label class="btn btn-info btnEvaType">
+                                                <input type="radio" name="rdbEvaType" id="option2" value="TYS002" />
+                                                <i class="glyphicon glyphicon-user"></i>&nbsp;แบบประเมินอาจารย์
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <%-- ชื่อแบบประเมิน --%>
+                                <div class="form-group" style="margin-bottom: 1em;">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">ชื่อแบบฟอร์ม</label>
+                                    <div class="col-sm-10">
+                                        <input id="txtEvaNameTh" type="text" class="form-control no-border" placeholder="ชื่อแบบประเมิน" runat="server" />
+                                        <input id="txtEvaNameEn" type="text" class="form-control no-border" placeholder="Evaluation form name" runat="server" />
+                                    </div>
+                                </div>
+
+                                <%-- รายละเอียดแบบประเมิน --%>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">รายละเอียด</label>
+                                    <div class="col-sm-10">
+                                        <textarea id="txtEvaDescTh" class="form-control no-border" placeholder="คำบรรยายแบบประเมิน" runat="server"></textarea>
+                                        <textarea id="txtEvaDescEn" class="form-control no-border" placeholder="Evaluation description" runat="server"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="display: none;">
+                            <div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                                    <div class="col-sm-offset-2 col-sm-10" id="divAnserRate">
+                                        <div class="well well-sm">คำนิยามระดับความเห็น</div>
+                                        <div class="input-group has-success">
+                                            <div class="input-group-addon" style="padding-right: 2em;">5</div>
+                                            <input class="form-control input-sm" value="มากที่สุด" />
+                                        </div>
+                                        <div class="input-group has-success">
+                                            <div class="input-group-addon" style="padding-right: 2em;">4</div>
+                                            <input class="form-control input-sm" value="มาก" />
+                                        </div>
+                                        <div class="input-group has-warning">
+                                            <div class="input-group-addon" style="padding-right: 2em;">3</div>
+                                            <input class="form-control input-sm" value="ปานกลาง" />
+                                        </div>
+                                        <div class="input-group has-error">
+                                            <div class="input-group-addon" style="padding-right: 2em;">2</div>
+                                            <input class="form-control input-sm" value="น้อย" />
+                                        </div>
+                                        <div class="input-group has-error">
+                                            <div class="input-group-addon" style="padding-right: 2em;">1</div>
+                                            <input class="form-control input-sm" value="น้อยที่สุด" />
+                                        </div>
+                                        <div class="input-group has-warning">
+                                            <div class="input-group-addon" style="padding-right: 0.95em;">N/A</div>
+                                            <input class="form-control input-sm" value="ไม่แสดงความคิดเห็น" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-offset-2 col-sm-10" style="margin-top: 1em;">
+                                        <div class="pull-right btnCollapse" target-selector="#divAnserRate">แสดงน้อยลง <span class="caret caret-reversed"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <%-- พื้นที่แสดงคำถามตั้งต้น --%>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-9">
+                                    <div id="divQuestion" runat="server">
+                                        <div class="row divQuestionPanel" id="divEvaluateSubject" data-evatype-id="TYS001" runat="server"></div>
+                                        <div class="row divQuestionPanel" id="divEvaluateTeacher" data-evatype-id="TYS002" runat="server"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="btn-group-vertical btnActionGroup" style="position: absolute;">
+                                        <button style="display: none;" type="button" class="btn btn-primary btnMoveUp" data-action="Move" data-toggle="tooltip" data-placement="right" title="เลื่อนลำดับขึ้น"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                                        <button type="button" class="btn btn-info btnAdd" data-action="Question" data-toggle="tooltip" data-placement="right" title="เพิ่มคำถามใหม่"><span class="glyphicon glyphicon-plus"></span></button>
+                                        <button type="button" class="btn btn-info btnAdd" data-action="Title" data-toggle="tooltip" data-placement="right" title="เพิ่มหัวข้อคำถาม"><span class="glyphicon glyphicon-text-size"></span></button>
+                                        <button style="display: none;" type="button" class="btn btn-primary btnMoveDown" data-action="Move" data-toggle="tooltip" data-placement="right" title="เลื่อนลำดับลง"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <%-- แผงปุ่มจัดการหน้าสร้างแบบประเมิน --%>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-9">
+                                    <div class="pull-right">
+                                        <a class="btn btn-info btnPreview">แสดงตัวอย่าง</a>
+                                        <a class="btn btn-success btnSave">บันทึก</a>
+                                        <a class="btn btn-primary btnPublish">นำไปใช้งาน</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div runat="server" id="divFooter" class="container-fulid"></div>
+</body>
+</html>
+<script>
+    <%//script section%>
+    var formTypeId = '<%=Request["typeid"]%>' || 'TYS001';
+    var frmId = '<%=Request["formid"]%>';
+    $(function () {
+        <%//สร้างคำอธิบายแผงปุ่มควบคุมด้านขวามือ%>
+        $(".btnActionGroup .btn").tooltip();
+        <%//กำหนดพฤติกรรมแผงปุ่มจัดการคำถามด้านขวามือ%>
+        <%//กำหนดพฤติกรรมปุ่มเพิ่มคำถาม และหัวข้อคำถาม%>
+        $(".btnActionGroup .btnAdd").click(function () {
+            <%//กำหนด Element ปลายทางที่จะเพิ่มคำถาม%>
+            var _target = $(".btnActionGroup").data("target-selector") ?
+                $(".btnActionGroup").data("target-selector") :
+                $("#divQuestion .divQuestionPanel.active .list-group-item:last");
+
+            <%//ตรวจสอบปุ่มที่กดเป็นหัวข้อคำถาม หรือ คำถาม%>
+            var _action = $(this).attr("data-action") == "Question" ? "CreateCustomQuestionPanel" : "CreateCustomTextTitle";
+            
+            $(_target).after(
+                $("<a>").addClass("list-group-item custom-question-panel")
+                .html("Processing...").addClass("text-center")
+                .load(
+                    "../datas/EvaluateHandler.ashx",
+                    {
+                        action: _action
+                    },
+                    function () {
+                        $(this).removeClass("text-center");
+                        $(this).find("input:first").focus();
+                        
+                        <%//ผูกพฤติกรรมแผงควบคุมคำถาม%>
+                        $(this).customQuestionDivEventHandle();
+                    })
+                );
+        });
+        //$(".custom-question-panel").customQuestionDivEventHandle();
+        <%//กำหนดพฤติกรรมปุ่มเลื่อนลำดับคำถามขึ้นลง *เพื่อจัดตำแหน่งคำถาม%>
+        $(".btnActionGroup").find(".btnMoveUp, .btnMoveDown").click(function () {
+            <%//กำหนด Element ที่จะทำการสลับตำแหน่ง%>
+            var _target = $(".btnActionGroup").data("target-selector");
+
+            if ($(this).hasClass("btnMoveUp")) {
+                _target.after($(_target).prev(".custom-question-panel"));
+            } else {
+                _target.before($(_target).next(".custom-question-panel"));
+            }
+            
+            _target.trigger("mouseenter");
+            _target.DetectChildAndParent();
+        });
+
+        <%//กำหนดพฤติกรรมปุ่มเลือกประเภทแบบประเมิน%>
+        $("#divQuestion .divQuestionPanel").removeClass("active").hide();
+        $("#divQuestion .divQuestionPanel[data-evatype-id=" + formTypeId + "]").addClass("active").show();
+        $(".btnEvaType").click(function () {
+            if(frmId)
+                return;
+            $("#divQuestion .divQuestionPanel")
+                .removeClass("active")
+                .hide();
+            $("#divQuestion .divQuestionPanel[data-evatype-id=" + $(this).find("input[name='rdbEvaType']").val() + "]")
+                .addClass("active")
+                .show();
+            $("#divQuestion .active .list-group-item:last")
+                .trigger("mouseenter");
+        }).find("[value='" + formTypeId + "']").parent().click();
+
+        <%//กำหนดพฤติกรรมปุ่มแสดงตัวอย่าง%>
+        $(".btnPreview").click(function () {
+            <%//สร้างรายการข้อมูล%>
+            var evaluate = renderFormDatas();
+
+            PostDataTo("frmPreviewEvaluate.aspx", evaluate);
+        });
+
+        <%//กำหนดพฤติกรรมปุ่มบันทึก%>
+        $(".btnSave").click(function () {
+            Page.Preload.Show();
+            var evaluate = renderFormDatas();
+            var data = {};
+
+            <%//แปลงค่าข้อมูล parameter ให้อยู่ในรูปแบบ string%>
+            for (var key in evaluate)
+                if (typeof (evaluate[key]) === "object")
+                    data[key] = JSON.stringify(evaluate[key]);
+                else
+                    data[key] = evaluate[key];
+
+            <%//เพิ่มตัวแปล action สำหรับเรียก method SaveEvaluation%>
+            data = $.extend({ 
+                frmid: frmId,
+                action: frmId == "" ? "SaveEvaluation" : "EditEvaluation" 
+            }, data);
+
+            $.post("../datas/EvaluateHandler.ashx", data,
+                function (response) {
+                    var url = Url.Combine("frmPublishForm.aspx", {
+                        "formid": response.Id
+                    });
+
+                    if(!frmId || $("body").data("action") === "publish")
+                    {
+                        Page.Preload.Hide();
+                        window.location.href = url;
+                    }
+                    else {
+                        Page.Preload.Hide();
+                        Page.Toast({
+                            message: response.Message,
+                            css: {
+                                width: "700px"
+                            },
+                            onclose: function(){
+                                if(response.RedirectURL)
+                                    window.location.href = response.RedirectURL;
+                            }
+                        });
+                    }
+                })
+            .fail(function(data){
+                Page.Preload.Hide();
+                Page.Toast("ไม่สามารถทำการบันทึกได้กรุณาติดต่อผู้ดูแล");
+            });
+        });
+
+        <%//กำหนดพฤติกรรมปุ่มนำไปใช้งาน%>
+        $(".btnPublish").click(function () {
+            if(confirm("ต้องทำการบันทึกข้อมูลก่อนเผยแผ่แบบประเมิน ต้องการบันทึกข้อมูลหรือไม่ ?"))
+            {
+                $("body").data("action", "publish");
+                $(".btnSave").click();
+            }
+        });
+
+        function renderFormDatas() {
+            var questions = [];
+            var options = [];
+            var questionId = 1;
+
+            <%//วนลูปอ่านคำถามเพิ่มเติม%>
+            $(".divQuestionPanel.active .custom-question-panel").each(function (key, item) {
+                item = $(item);
+                var qId = (item.data("json") || {}).id || questionId;
+
+                <%//สร้าง keycode%>
+                var _keyCode = ($(item.prev()).data("keycode") || "");
+                var _incrementId = (/\d+$/gi).exec(_keyCode);
+                _incrementId = parseInt(_incrementId) + 1;
+                if (_keyCode.length === 4 && item.find(".selectpicker").val() === "TYQ001")
+                    _keyCode += "B001";
+                else if (item.find(".selectpicker").val() !== "TYQ001") {
+                    _keyCode = _keyCode.substr(0, 4);
+                    _incrementId = (/\d+$/gi).exec(_keyCode);
+                    _incrementId = parseInt(_incrementId) + 1;
+                    _keyCode = _keyCode.replace(new RegExp("\\d{" + _incrementId.toString().length + "}$", "gi"), _incrementId);
+                }
+                else
+                    _keyCode = _keyCode.replace(new RegExp("\\d{" + _incrementId.toString().length + "}$", "gi"), _incrementId);
+
+                item.data("keycode", _keyCode);
+
+                var opts = getOptions(item.find(".question-panel.active"), qId);
+
+                <%//เพิ่มข้อมูลคำถาม%>
+                questions.push({
+                    "id": qId,
+                    "key-code": item.data("keycode"),
+                    "question-type": item.find(".selectpicker").val() || "TYQ005",
+                    "question-name-th": item.find(".txtQuestionTitleTh").val() === "" ?
+                        item.find(".txtQuestionTitleTh").attr("placeholder") :
+                        item.find(".txtQuestionTitleTh").val(),
+                    "question-name-en": item.find(".txtQuestionTitleEn").val() === "" ?
+                        item.find(".txtQuestionTitleEn").attr("placeholder") :
+                        item.find(".txtQuestionTitleEn").val(),
+                    "options": generateXMLString(opts, "options"),
+                    //"is-notavalible": item.find(".btnNA.active [name='rdbNA']").val() === "1" ? "Y" : "N",
+                    "isNA": item.find(".chkIsNA").is(":checked") ? "Y" : "N",
+                    "max-range": item.find(".question-panel.active .selMaxRange").val() || null
+                });
+
+                <%//เพิ่มข้อมูลตัวเลือกคำถาม%>
+                
+                for (var option in opts)
+                    options.push(opts[option]);
+
+                if(!isNaN(qId))
+                    questionId++;
+            });
+
+            <%//วนลูปอ่านตัวเลือก%>
+            function getOptions(obj, id) {
+                var opts = [];
+                $(".divOption", obj).each(function (key, opt) {
+                    opt = $(opt);
+                    opts.push({
+                        "question-id": id,
+                        "option-id": opt.data("id") || "",
+                        "choiceSubNameTh": opt.find(".txtOptionDescriptTh").val() === "" ?
+                            opt.find(".txtOptionDescriptTh").attr("placeholder") :
+                            opt.find(".txtOptionDescriptTh").val(),
+                        "choiceSubNameEn": "",
+                        "isRemark": opt.attr("data-remark") === "true" ? "Y" : "N"
+                    });
+                });
+
+                return opts;
+                //return generateXMLString(options, "options");
+            }
+
+            <%//สร้าง form object%>
+            var form = {
+                "evaluate-type": $("input[name='rdbEvaType']:checked").val(),
+                "evaluate-name-th": $("#txtEvaNameTh").val(),
+                "evaluate-name-en": $("#txtEvaNameEn").val(),
+                "evaluate-description-th": $("#txtEvaDescTh").val(),
+                "evaluate-description-en": $("#txtEvaDescEn").val(),
+                "custom-questions": questions,
+                "options": options
+            };
+
+            return form;
+        }
+
+        function generateXMLString(obj, parentTagName) {
+            var xmlStr = "";
+            var childTagName = parentTagName.substr(0, parentTagName.length - 1);
+
+            if (!obj.length)
+                return null;
+
+            xmlStr += "<" + parentTagName + ">";
+            for (var row in obj) {
+                var pk = parseInt(row) + 1;
+                xmlStr += "<" + childTagName + ">";
+                xmlStr += "<id>" + pk + "</id>";
+                for (var col in obj[row]) {
+                    if (typeof (obj[row][col]) === "object" && obj[row][col] !== null)
+                        xmlStr += "<" + col + ">" + generateXMLString(obj[row][col], col) + "</" + col + ">";
+                    else
+                        xmlStr += "<" + col + ">" + obj[row][col] + "</" + col + ">";
+                }
+                xmlStr += "</" + childTagName + ">";
+            }
+            xmlStr += "</" + parentTagName + ">";
+
+            return encodeURI(xmlStr);
+        }
+
+        <%//กำหนดพฤติกรรมแผงสร้างคำถาม%>
+        $.fn.customQuestionDivEventHandle = function () {
+            var animateSpeed = 150;
+            <%//กำหนดพฤติกรรมเวลา mouse hover%>
+            $(this).unbind("mouseenter").mouseenter(function () {
+                <%//เลือนตำแหน่งแผงปุ่มควบคุมตาม Element เป้าหมาย%>
+                $(".btnActionGroup").animate({
+                    "top": this.offsetTop + 10
+                }, animateSpeed);
+                $(".btnActionGroup").data("target-selector", $(this));
+
+                <%//กำหนดการแสดงผลปุ่มควบคุมด้านขวามือ%>
+                var nextCustomQuestion, prevCustomQuestion;
+                nextCustomQuestion = $(this).next();
+                prevCustomQuestion = $(this).prev();
+
+                $(".btnActionGroup").find(".btnMoveUp, .btnMoveDown").hide();
+                if ($(this).hasClass("custom-question-panel")) {
+                    if (prevCustomQuestion.hasClass("custom-question-panel"))
+                        $(".btnActionGroup").find(".btnMoveUp").show();
+                    if (nextCustomQuestion.hasClass("custom-question-panel"))
+                        $(".btnActionGroup").find(".btnMoveDown").show();
+                }
+
+                <%//ปิดการเพิ่มหัวข้อคำถามแทรกตรงระหว่างทำถามตั้งต้น%>
+                var divEvaActivePanel = $(this).parents(".divQuestionPanel");
+
+                if ($(this).find("~ .default-question").length)
+                {
+                    //divEvaActivePanel.find(".list-group-item").index(divEvaActivePanel.find("[data-question-type-id='TYQ001']:last")) ===
+                    //$(this, divEvaActivePanel.find(".list-group-item")).index()) {
+                    $(".btnActionGroup").find("[data-action='Title']").hide();
+                }
+                else {
+                    $(".btnActionGroup").find("[data-action='Title']").show();
+                    $(".btnActionGroup").data("insert-between", false);
+                }
+
+                $(this).SetDynamicBgColor();
+            }).unbind("mouseout").mouseout(function () {
+                $(this).SetDynamicBgColor();
+            });
+
+            <%//สร้างกล่อง select box ในรูปแบบ selectpicker%>
+            <%//อ้างอิง : https://silviomoreto.github.io/bootstrap-select/%>
+            <%//ตรวจสอบว่าเพิ่มคำถามแทรกระหว่างคำถามตั้งต้นหรือไม่?%>
+            var divEvaActivePanel = $(this).parents(".divQuestionPanel");
+
+            <%// GOTO001 ผูกข้อมูลชื่อคำถาม%>
+            if($(this).data("json"))
+            {
+                <%// ผูกข้อมูลกรณีเงื่อนไขผู้ใช้งานเข้าหน้าเพจโมดูลแก้ไขแบบประเมิน %>
+                $(this).each(function(key, obj){
+                    var json = $(obj).data("json");
+
+                    if(json){
+                        $(obj).find(".txtQuestionTitleTh").val(json.questionTName);
+                        $(obj).find(".txtQuestionTitleEn").val(json.questionEName);
+                        $(obj).find("select.selectpicker").find("option[value='" + json.questionTypeId + "']").attr("selected", "selected");
+                    }
+                });
+            }
+            else if ($(this).find("~ .default-question").length)
+            {
+                <%//ปิดการเลือกประเภทคำถามอื่นๆ ยกเว้นคำถามน้ำหนัก%>
+                $(this).find(".selectpicker").find("option").not("[data-question-type='.divArrayRank']").attr("disabled", "disabled");
+                <%//จัดการให้เลือกคำถามเป็นประเภทน้ำหนักกรณีแทรกระหว่างคำถามตั้งต้น%>
+                $(this).find(".selectpicker").find("option[data-question-type='.divArrayRank']").attr("selected", "selected");
+            }
+                <%//ถ้าเพิ่มคำถามใหม่%>
+            else 
+            {
+                $(this).DetectChildAndParent();
+            }
+
+            <%//สร้างกล่อง select box ในรูปแบบ selectpicker%>
+            $(this).find(".selectpicker").selectpicker({ showSubtext: true });
+
+            <%//กำหนดพฤติกรรมการทำงานของกล่อง select box%>
+            $(this).find("select.selectpicker").on('change', function (e) {
+                var customQuestionPanel = $(this).parents(".custom-question-panel");
+                customQuestionPanel.find(".question-panel").removeClass("active").hide();
+                customQuestionPanel.find($(this).find("option:selected").attr('data-question-type')).addClass("active").show();
+                customQuestionPanel.next().DetectChildAndParent();
+            }).change();
+
+            <%//กำหนดพฤติกรรมของวัตถุภายในแผงสร้างคำถาม%>
+            <%//กรณี radio button%>
+            $(this).find(".divMultipleChoice .divAddOption").find(".addOption, .addOther").unbind("click").click(function (e, data) {
+                var questionPanel = $(this).parents(".question-panel");
+                data = data || {};
+
+                <%//ตรวจสอบประเภทตัวเลือกว่าใช่อื่นๆ *ข้อความแสดงความคิดเห็น%>
+                var isAddOther = $(this).hasClass("addOther");
+
+                $.get("../datas/EvaluateHandler.ashx",
+                {
+                    action: "RenderMultipleChoiceQuestionAnswer"
+                },
+                function (response) {
+                    var optionCount, divAddOption = questionPanel.find(".divAddOption");
+                    var divOption = $(response);
+
+                    <%//กำหนดพฤติกรรมปุ่มลบตัวเลือกคำตอบ%>
+                    divOption.SetOptionDeleteButtonEventHandler();
+                    <%--divOption.find(".glyphicon-remove").click(function () {
+                        divOption.remove();
+                        <%//ตรวจสอบหาคำถามอื่นๆ ถ้ามีแล้วให้ซ่อนปุ่มอื่นๆ%>
+                        if (!questionPanel.find("[data-remark]").is("div"))
+                            questionPanel.find(".addOther").show();
+                    });--%>
+
+                    <%//เพิ่มตัวเลือกคำตอบ%>
+                    divAddOption.before(divOption);
+                    optionCount = questionPanel.find(".divOption").not("[data-remark]").length;
+                    if (!isAddOther) {
+                        divOption.attr({
+                            "data-id": data.id
+                        });
+                        divOption.find("input").attr("placeholder", "ตัวเลือกที่ " + optionCount);
+                        divOption.find("input").val(data.choiceSubNameTh);
+                        divOption.find("input").focus();
+                    } else {
+                        divOption.attr({
+                            "data-remark": true,
+                            "data-id": data.id
+                        }).find("input").attr({
+                            "placeholder": "อื่นๆ ระบุ",
+                            "disabled": "disabled"
+                        });
+                        <%//ซ่อนปุ่มเพิ่มอื่นๆ ให้เพิ่มได้แค่อันเดียว%>
+                        questionPanel.find(".addOther").hide();
+                    }
+                    divOption.SetDynamicBgColor();
+                });
+            });
+
+            <%//กรณี checkbox%>
+            $(this).find(".divCheckboxes .divAddOption").find(".addOption, .addOther").unbind("click").click(function (e, data) {
+                var questionPanel = $(this).parents(".question-panel");
+                data = data || {};
+
+                <%//ตรวจสอบประเภทตัวเลือกว่าใช่อื่นๆ%>
+                var isAddOther = $(this).hasClass("addOther");
+
+                $.get("../datas/EvaluateHandler.ashx",
+                {
+                    action: "RenderCheckboxQuestionAnswer"
+                },
+                function (response) {
+                    var optionCount, divAddOption = questionPanel.find(".divAddOption");
+                    var divOption = $(response);
+
+                    <%//กำหนดพฤติกรรมปุ่มลบตัวเลือกคำตอบ%>
+                    divOption.SetOptionDeleteButtonEventHandler();
+                    <%--divOption.find(".glyphicon-remove").click(function () {
+                        divOption.remove();
+                        <%//ตรวจสอบหาคำถามอื่นๆ ถ้ามีแล้วให้ซ่อนปุ่มอื่นๆ%>
+                        if (!questionPanel.find("[data-remark]").is("div"))
+                            questionPanel.find(".addOther").show();
+                    });--%>
+
+                    <%//เพิ่มตัวเลือกคำตอบ%>
+                    divAddOption.before(divOption);
+                    optionCount = questionPanel.find(".divOption").not("[data-remark]").length;
+                    if (!isAddOther) {
+                        divOption.attr({
+                            "data-id": data.id || ""
+                        });
+                        divOption.find("input").attr("placeholder", "ตัวเลือกที่ " + optionCount);
+                        divOption.find("input").val(data.choiceSubNameTh);
+                        divOption.find("input").focus();
+                    } else {
+                        divOption.attr({
+                            "data-remark": true,
+                            "data-id": data.id || ""
+                        }).find("input").attr({
+                            "placeholder": "อื่นๆ ระบุ",
+                            "disabled": "disabled"
+                        });
+                        <%//ซ่อนปุ่มเพิ่มอื่นๆ ให้เพิ่มได้แค่อันเดียว%>
+                        questionPanel.find(".addOther").hide();
+                    }
+                    divOption.SetDynamicBgColor();
+                });
+            });
+
+            <%//กรณี array rank(ช่วงคะแนน)%>
+            $(this).find(".divArrayRank .selMaxRange").change(function () {
+                randerArrayRank(this);
+            }).change();
+            $(this).find(".divArrayRank .chkIsNA").click(function(){
+                //$(this).parent().find(".btnNA").attr("class", "btn btn-default btn-xs btnNA");
+                //$(this).addClass("active");
+                //$(this).removeClass("btn-default").addClass($(this).attr("data-btn-active"));
+                randerArrayRank(this);
+            });
+
+            function randerArrayRank(obj){
+                var customQuestionPanel = $(obj).parents(".question-panel");
+                var maxRange = customQuestionPanel.find(".selMaxRange").val();
+                var isNotAvalible = customQuestionPanel.find(".chkIsNA").is(":checked");
+
+                customQuestionPanel.find(".divScoreGroup").load("../datas/EvaluateHandler.ashx",
+                    {
+                        action: "RenderCustomRanking",
+                        maxRange: maxRange,
+                        isNotAvalible: isNotAvalible
+                    },
+                    function (response) {
+                        $(this).SetDynamicBgColor();
+                    });
+            }
+
+            <%//กำหนดพฤติกรรมแผลงปุ่มจัดการด้านล่าง%>
+            <%//ปุ่มลบคำถาม%>
+            $(this).find(".btn-toolbar .btnRemove").click(function () {
+                var customQuestionPanel = $(this).parents(".custom-question-panel");
+                var nextCustomQuestionPanel = $(this).parents(".custom-question-panel").next();
+                var prevElement = $(this).parents(".custom-question-panel").prev();
+                customQuestionPanel.hide();
+                $(".btnActionGroup").animate({
+                    top: prevElement.get(0).offsetTop + 10
+                }, animateSpeed, function () {
+                    customQuestionPanel.remove();
+                    prevElement.trigger("mouseenter");
+                    nextCustomQuestionPanel.DetectChildAndParent();
+                });
+            });
+
+            <%//ปุ่มคัดลอกคำถาม%>
+            $(this).find(".btn-toolbar .btnDuplicate").unbind("click").click(function () {
+                var customQuestionPanel = $(this).parents(".custom-question-panel");
+                var cloneOfCustomQuestionPanel = customQuestionPanel.clone();
+                var activeQuestionPanel = customQuestionPanel.find(".question-panel").index(customQuestionPanel.find(".question-panel.active"));
+                var selMaxRangeSelected = customQuestionPanel.find(".selMaxRange").val();
+                var questionTypeId = customQuestionPanel.find(".selectpicker").val();
+
+                customQuestionPanel.after(cloneOfCustomQuestionPanel);
+                cloneOfCustomQuestionPanel.find("div.bootstrap-select:last").before(cloneOfCustomQuestionPanel.find("div.bootstrap-select:last").find("select"));
+                cloneOfCustomQuestionPanel.find("div.bootstrap-select:last").remove();
+                cloneOfCustomQuestionPanel.customQuestionDivEventHandle();
+                cloneOfCustomQuestionPanel.find(".selectpicker option[value='" + questionTypeId + "']").prop("selected", true);
+                cloneOfCustomQuestionPanel.find(".selectpicker").trigger("change");
+                cloneOfCustomQuestionPanel.find(".selMaxRange option[value='" + selMaxRangeSelected + "']").prop("selected", true);
+                cloneOfCustomQuestionPanel.find(".selMaxRange").trigger("change");
+                cloneOfCustomQuestionPanel.SetDynamicBgColor();
+                cloneOfCustomQuestionPanel.find(".divOption").each(function (index, obj) {
+                    $(obj).SetOptionDeleteButtonEventHandler();
+                });
+            });
+
+            <%//GOTO002%>
+            <%//ปรับการแสดงผล selectpicker ให้เลือก option ตามคำถาม custom%>
+            $(this).each(function(key, obj){
+                var json = $(obj).data("json");
+                if(json && !$(obj).data("IsProcess")){
+                    $(obj).find(".selectpicker").selectpicker('val', $(obj).data("json").questionTypeId);
+                    $(obj).find(".selectpicker").trigger("change");
+
+                    <%//Radio choice, Checkbox%>
+                    var options = JSON.parse(json.answerXML);
+                    for(var index in options.option){
+                        var option = options.option[index];
+                        if(option.isRemark !== "Y")
+                        {
+                            $(obj).find(".question-panel.active").find(".addOption").trigger("click", option);
+                        }
+                        else
+                        {
+                            $(obj).find(".question-panel.active").find(".addOther").trigger("click", option);
+                        }
+                    }
+                    <%//Array rank%>
+                    $(obj).find(".selMaxRange").find("option[value='" + json.rankMax + "']").prop("selected", true);
+                    if(json.isNA === "Y")
+                        $(obj).find(".chkIsNA").click();
+                    $(obj).find(".selMaxRange").trigger("change");
+                }
+            });
+
+            $(this).data("IsProcess", true);
+        };
+
+        <%//ปรับสีพื้นหลังของเครื่องมือแบบฟอร์ม%>
+        $.fn.SetDynamicBgColor = function () {
+            $(this).find("input, textarea, select").css("background-color", $(this).css("background-color"));
+        };
+
+        <%//%>
+        $.fn.SetOptionDeleteButtonEventHandler = function () {
+            var divOption = $(this);
+            divOption.find(".glyphicon-remove").click(function () {
+                var questionPanel = $(this).parents(".question-panel");
+                divOption.remove();
+                <%//ตรวจสอบหาคำถามอื่นๆ ถ้ามีแล้วให้ซ่อนปุ่มอื่นๆ%>
+                if (!questionPanel.find("[data-remark]").is("div"))
+                    questionPanel.find(".addOther").show();
+            });
+        };
+
+        <%//เข็คความสัมพันธ์เพื่อกำหนดการเลือกประเภทคำถาม%>
+        $.fn.DetectChildAndParent = function () {
+            <%//กรณีเพิ่มคำถามใหม่ไม่แทรกระหว่างคำถามตั้งต้น%>
+            if (!$(this).find("~ .default-question").length) {
+                <%//ตรวจสอบว่าแผงคำถามอยู่ภายใต้หัวข้อคำถามหรือ คำถามประเภทน้ำหนักหรือไม่%>
+                if ($(this).prev().find(".divTextTitle").length || $(this).prev().find(".question-panel.active").hasClass("divArrayRank")) {
+                    <%//ปลด disabled คำถามประเภทน้ำหนัก%>
+                    $(this).find("select.selectpicker").find("option").removeAttr("disabled");
+                    $(this).find("select.selectpicker").selectpicker("render");
+                } else {
+                    <%//ตรวจสอบแผงคำถามว่าเป็นหัวข้อคำถามหรือไม่%>
+                    if ($(this).find(".divTextTitle").length && $(this).next().find("select.selectpicker").length)
+                        <%//ถ้าใช่หัวข้อคำถามให้ส่งแผงคำถามถัดไปไปเข้าฟังก์ชั่นตรวจสอบ%>
+                        $(this).next().DetectChildAndParent();
+                    $(this).find("select.selectpicker").find("option[value='TYQ001']").attr("disabled", "disabled");
+                    <%//ถ้าประเภทคำถามที่เลือกคือ array rank ให้เลือกประเภทคำถามแรก%>
+                    if($(this).find("select.selectpicker").find("option:selected").val() === "TYQ001")
+                        $(this).find("select.selectpicker").find("option:first").prop("selected", true);
+                    $(this).find("select.selectpicker").selectpicker("render");
+                    $(this).find("select.selectpicker").change();
+                }
+            }
+        };
+
+        <%//ผูกพฤติกรรมที่แผงคำถามที่สามารถเพิ่มคำถามต่อท้ายได้%>
+        <%//ค้นหาหัวข้อคำถามเพื่อหาคำถามสุดท้ายของหัวข้อนั้นๆ เพื่อกำหนดพฤติกรรมฟังก์ชั่น customQuestionDivEventHandle%>
+        $("#divQuestion").find("#divEvaluateSubject, #divEvaluateTeacher").find("a.list-group-item.alert-warning")
+            .each(function () {
+                <%//ค้นหา element คำถามก่อนหน้าหัวข้อคำถาม%>
+                $(this).prev().customQuestionDivEventHandle();
+                $(this).prev().data("IsBetween", true);
+            });
+        <%//แผงคำถามที่เป็นประเภท TYQ001 อันสุดท้ายในแต่ละหัวข้อ%>
+        $("#divQuestion").find("#divEvaluateSubject, #divEvaluateTeacher").find("[data-question-type-id='TYQ001']:last").data("IsBetween", true).customQuestionDivEventHandle();
+        <%//แผงคำถามอันสุดท้าย%>
+        $("#divQuestion").find("#divEvaluateSubject, #divEvaluateTeacher").find("a.list-group-item:last").customQuestionDivEventHandle();
+        <%//แผงสร้างคำถามทั้งหมด%>
+        $("#divQuestion").find("#divEvaluateSubject, #divEvaluateTeacher").find("a.custom-question-panel").customQuestionDivEventHandle();
+    });
+</script>

@@ -1,0 +1,5 @@
+﻿$(function () {
+    $.fn.DataTable = function () {
+        
+    }
+});

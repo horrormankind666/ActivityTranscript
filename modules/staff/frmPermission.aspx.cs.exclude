@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class modules_staff_frmPermission : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Page.StylesRegister("Bootstrap", "DataTable", "Evaluation");
+        Page.ScriptsRegister("Bootstrap", "DataTable", "Evaluation");
+        divSideMenu.InnerHtml = EvaluationUI.SideMenu();
+        divBanner.InnerHtml = Page.Banner();
+        divFooter.InnerHtml = Page.Footer();
+        SqlDataSource _dsRoles = new SqlDataSource(DbConfiguration.GetConnection().ConnectionString, "SELECT * FROM [dbo].[evaUserRole]");
+        ddlUserRole.DataSource = _dsRoles;
+        ddlUserRole.DataTextField = "roleName";
+        ddlUserRole.DataValueField = "id";
+        ddlUserRole.DataBind();
+        Login _userInfo = new Login("staff");
+
+        StringBuilder _queryBuilder = new StringBuilder();
+        _queryBuilder.Append(@"SELECT *, programCode + majorCode + groupNum + ' - ' + nameTh AS [displayLabel] ");
+        _queryBuilder.Append(@"FROM [dbo].[acaProgram] WHERE dLevel = 'B' AND cancelStatus IS NULL ");
+        _queryBuilder.AppendFormat(@"AND facultyId = '{0}'", _userInfo.AccessFacultyId);
+
+        SqlDataSource _dsProgram = new SqlDataSource(DbConfiguration.GetConnection().ConnectionString, _queryBuilder.ToString());
+
+        ddlProgram.DataSource = _dsProgram;
+        ddlProgram.DataTextField = "displayLabel";
+        ddlProgram.DataValueField = "id";
+        ddlProgram.DataBind();
+
+        ddlProgram.Items.Insert(0, new ListItem("ทุกหลักสูตร", ""));
+    }
+}

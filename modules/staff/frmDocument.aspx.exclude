@@ -1,0 +1,106 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmDocument.aspx.cs" Inherits="modules_staff_frmDocument" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+</head>
+<body>
+    <div runat="server" id="divBanner" class="container-fulid"></div>
+    <div class="container-fluid site-content">
+        <div class="side-menu-panel" id="sideMenu" runat="server">
+            <div class="list-group">
+                <a href="#" class="list-group-item">Cras justo odio</a>
+                <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                <a href="#" class="list-group-item">Morbi leo risus</a>
+                <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                <a href="#" class="list-group-item">Vestibulum at eros</a>
+            </div>
+        </div>
+        <div class="side-content-panel">
+            <div>
+                <ol class="breadcrumb">
+                    <li class="active">ปีการศึกษาของเอกสารการประเมิน</li>
+                </ol>
+            </div>
+            <div id="divContent">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>รายชื่อเอกสาร</td>
+                            <td class="dt-head-center">#</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div runat="server" id="divFooter" class="container-fulid"></div>
+</body>
+</html>
+<script>
+    $(".table").DataTable({
+        'searching': false,
+        'ordering': true,
+        'ajax': {
+            url: '../datas/MasterDataHandler.ashx',
+            data: {
+                'action': 'GetYearSemester'
+            }
+        },
+        'columnDefs': [
+            {
+                'targets': [0],
+                'render': function (data, type, row) {
+                    return row.acaYear + "/" + row.semester;
+                }
+            },
+            {
+                'targets': [1],
+                'orderable': false,
+                'render': function (data, type, row) {
+                    return '<a class="btnSelectDoc" data-acayear="' + row.acaYear + '" data-semester="' + row.semester + '" style="cursor: pointer;">เลือกเอกสาร</a>';
+                    //return '<div class="btn-group pull-right" role="group" aria-label="...">' +
+                    //        '<a type="button" data-acayear="' + row.acaYear + '" data-semester="' + row.semester + '" class="btn btn-success" data-href="frmCourse.aspx"><span class="glyphicon glyphicon-book"></span> รายวิชา</a>' +
+                    //        '<a type="button" data-acayear="' + row.acaYear + '" data-semester="' + row.semester + '" class="btn btn-info" data-href="frmSetPeriod.aspx"><span class="glyphicon glyphicon-calendar"></span> กำหนดเวลาประเมิน</a>' +
+                    //        '<a type="button" data-acayear="' + row.acaYear + '" data-semester="' + row.semester + '" class="btn btn-warning" data-href="frmReport.aspx"><span class="glyphicon glyphicon-file"></span> รายงาน</button>' +
+                    //        '</div>';
+                }
+            }
+        ],
+        'order': [[0, 'desc']]
+    });
+    $(".table").on("draw.dt", function () { setDatatableEvent(); });
+    $("body").find("#divFooter").append(document.cookie["evaUserInfo"]);
+
+    function setDatatableEvent() {
+        $(".btnSelectDoc").click(function () {
+            Page.Preload.Show();
+            <%//var href = $(this).data("href");%>
+            var docInfo = $(this).data();
+            $(this).parents("table").find("tr").removeClass("active");
+            $(this).parents("tr").addClass("active");
+            $.post("../datas/MasterDataHandler.ashx",
+                {
+                    action: "SetDocumentInfo",
+                    year: docInfo["acayear"],
+                    semester: docInfo["semester"]
+                },
+                function (response) {
+                    <%
+                    //Page.Toast({
+                    //    message: "ได้เลือกเอกสารการประเมินประจำปี " + docInfo["acayear"] + " ภาคการศึกษาที่ " + docInfo["semester"],
+                    //    onclose: function () { window.location.href = response; }
+                    //});
+                    %>
+                    window.location.href = response;
+                });
+        });
+    }
+</script>

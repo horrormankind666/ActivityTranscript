@@ -1,0 +1,39 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmPreviewEvaluate.aspx.cs" Inherits="modules_staff_frmPreviewEvaluate" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Evaluation - แสดงตัวอย่างแบบประเมิน</title>
+    <style>
+        .container {
+            width: 1024px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div runat="server" id="content" class="container hidden"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 well">
+                <h3 class="text-center" runat="server" id="lblEvaTitle"></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" runat="server" id="divQuestion"></div>
+            <div class="hidden" runat="server" id="divCustomQuestion"></div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $(function () {
+        $(".btnRank").unbind("click").click(function () {
+            $(this).parent().find(".btnRank").attr("class", "btn btn-default btnRank");
+            $(this).removeClass("btn-default").addClass($(this).attr("data-btn-active"));
+        });
+        $("input, textarea").removeAttr("disabled");
+    });
+</script>

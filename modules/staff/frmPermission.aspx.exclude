@@ -1,0 +1,107 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmPermission.aspx.cs" Inherits="modules_staff_frmPermission" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+</head>
+<body>
+    <div runat="server" id="divBanner" class="container"></div>
+    <div class="container-fluid site-content">
+        <div class="side-menu-panel" id="divSideMenu" runat="server"></div>
+        <div class="side-content-panel">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <h4>Add User</h4>
+                            <hr />
+                            <div class="form-group">
+                                <label class="control-label col-md-2">user account</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control input-sm" id="txtUsername" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">user type</label>
+                                <div class="col-md-10">
+                                    <select class="form-control selectpicker input-sm" id="ddlUserRole" runat="server"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">program</label>
+                                <div class="col-md-10">
+                                    <select class="form-control selectpicker input-sm" id="ddlProgram" runat="server"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <button class="btn btn-success btn-sm pull-right btnAdd">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>รายชื่อผู้มีสิทธิ</h4>
+                        <hr />
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>username</th>
+                                        <th>faculty</th>
+                                        <th>program</th>
+                                        <th>role</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div runat="server" id="divFooter" class="container"></div>
+</body>
+</html>
+<script>
+    $(function () {
+        $(".table").DataTable({
+            ajax: {
+                url: "../datas/MasterDataHandler.ashx",
+                data: {
+                    action: "GetListPrivilage"
+                }
+            },
+            columns: [
+                { data: "username" },
+                { data: "facultyId" },
+                { data: "programId" },
+                { data: "roleName" }
+            ]
+        });
+        $(".btnAdd").click(function () {
+            $.post("../datas/MasterDataHandler.ashx",
+                {
+                    action: "SetUserPrivilage",
+                    user: $("#txtUsername").val(),
+                    roleid: $("#ddlUserRole").val(),
+                    programid: $("#ddlProgram").val()
+                },
+                function (response) {
+                    Page.Toast({
+                        message: response.Message,
+                        onclose: function () {
+                            $(".table").DataTable().ajax.reload(null, false);
+                        }
+                    });
+            });
+        });
+    });
+</script>

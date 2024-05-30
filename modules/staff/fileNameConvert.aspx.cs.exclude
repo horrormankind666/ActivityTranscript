@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class modules_staff_fileNameConvert : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        //foreach (string key in Response.Cookies.AllKeys)
+        //{
+        //    Response.Cookies[key].Expires = DateTime.Now.AddDays(-1);
+        //    Response.Cookies.Set(Request.Cookies[key]);
+        //    Response.Cookies.Remove(key);
+        //}
+        //foreach (string key in Request.Cookies.AllKeys)
+        //{ 
+        //    Request.Cookies[key].Expires = DateTime.Now.AddDays(-1);
+        //    Request.Cookies.Set(Request.Cookies[key]);
+        //    Request.Cookies.Remove(key);
+        //}
+        Response.Cookies["evaUserInfo"].Values.Set("facultyId", "EG-01");
+        //string _targetDirectory = @"E:\Download$\Music\EFM 94 TOP AIR PLAY (ประจำวันเสาร์ที่ 24 ธันวาคม 2559).folder";
+        //string _destinationDirectory = _targetDirectory + @"\Rename files";
+        //DirectoryInfo _dir = new DirectoryInfo(_targetDirectory);
+        //DirectoryInfo _destinationDir = new DirectoryInfo(_destinationDirectory);
+
+        //if (!_destinationDir.Exists)
+        //    _destinationDir.Create();
+
+        //StringBuilder _tblFileList = new StringBuilder();
+        //_tblFileList.Append("<table>");
+        //_tblFileList.Append("<tr>");
+        //_tblFileList.Append("<td>file name</td>");
+        //_tblFileList.Append("<td>utf-8</td>");
+        //_tblFileList.Append("<td>display name</td>");
+        //_tblFileList.Append("</tr>");
+
+        //foreach (var _file in _dir.GetFiles("*", SearchOption.AllDirectories))
+        //{
+        //    byte[] _filenamebyte = Encoding.Unicode.GetBytes(_file.Name);
+        //    byte[] _window874byte = Encoding.GetEncoding(874).GetBytes(_file.Name);
+        //    string _thaiName = Encoding.GetEncoding(874).GetString(_filenamebyte);
+        //    _tblFileList.Append("<tr>");
+        //    _tblFileList.AppendFormat("<td>{0}</td>", _file.Name);
+        //    _tblFileList.AppendFormat("<td>{0}</td>", _thaiName);
+        //    _tblFileList.AppendFormat("<td>{0}</td>", _destinationDir.FullName + @"\" + _thaiName);
+        //    _tblFileList.Append("</tr>");
+        //    string _newfilename = _destinationDir.FullName + @"\" + _thaiName.Replace("\0", "");
+        //    if (!File.Exists(_newfilename))
+        //        _file.CopyTo(_newfilename);
+        //    else
+        //        _file.CopyTo("Copy of " + _newfilename);
+        //}
+
+        //foreach (var _ec in Encoding.GetEncodings()) {
+        //    string _thaiName = Encoding.GetEncoding(874).GetString(Encoding.UTF8.GetBytes(_file.Name));
+        //    _tblFileList.Append("<tr>");
+        //    _tblFileList.AppendFormat("<td>{0}</td>", _ec.Name);
+        //    _tblFileList.AppendFormat("<td>{0}</td>", _ec.CodePage);
+        //    _tblFileList.AppendFormat("<td>{0}</td>", _ec.DisplayName);
+        //    _tblFileList.Append("</tr>");
+        //}
+
+        //_tblFileList.Append("</table>");
+
+        //divFiles.InnerHtml = _tblFileList.ToString();
+    }
+}

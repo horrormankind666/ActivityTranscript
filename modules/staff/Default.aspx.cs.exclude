@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class modules_staff_Default : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        //Page.StylesRegister("Bootstrap", "DataTable", "Evaluation");
+        //Page.ScriptsRegister("Bootstrap", "DataTable", "Evaluation");
+        //divBanner.InnerHtml = Page.Banner();
+        //divSideMenu.InnerHtml = EvaluationUI.SideMenu();
+        //switch (Request["msgid"])
+        //{
+        //    case "1": hddResponseMessage.Value = "ไม่มีสิทธิ์เข้าถึงหน้าเพจดังกล่าว"; break;
+        //    //case "1": divResponseMessage.InnerHtml = "ไม่มีสิทธิ์เข้าถึงหน้าเพจดังกล่าว"; break;
+        //}
+        //divFooter.InnerHtml = Page.Footer();
+    }
+}

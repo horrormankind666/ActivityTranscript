@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class modules_staff_frmManageTeacher : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Login _userInfo = new Login("staff");
+        Page.StylesRegister("Bootstrap", "DataTable", "Evaluation");
+        Page.ScriptsRegister("Bootstrap", "DataTable", "Evaluation");
+        divBanner.InnerHtml = Page.Banner();
+        divBreadcrumb.InnerHtml = EvaluationUI.Breadcrumb(_userInfo.DocumentYear, _userInfo.DocumentSemester);
+        //divNavbar.InnerHtml = EvaluationUI.Staff.StaffContentNavBar("frmCourse.aspx", Request.Params["year"], Request.Params["semester"]);
+        sideMenu.InnerHtml = EvaluationUI.SideMenu();
+        divFooter.InnerHtml = Page.Footer();
+
+        // ดึงข้อมูลรายวิชา
+        DataRow _subjectInfo = DbConfiguration.ExecuteQuery("SELECT * FROM [dbo].[acaSubject] WHERE id = @subjectid", 
+            new SqlParameter("subjectid", Request.Params["subjectid"])).Tables[0].Rows[0];
+
+        // กำหนดการแสดงผลชื่อรายวิชา
+        spnSubjectName.InnerHtml = string.Format("<div style='text-align:right;'><div>{0}</div><div style='font-size:12px;'>{1}</div></div>",
+            _subjectInfo["nameTh"].ToString(), 
+            _subjectInfo["nameEn"].ToString());
+    }
+}

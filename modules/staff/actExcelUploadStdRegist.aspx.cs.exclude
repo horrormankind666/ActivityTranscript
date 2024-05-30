@@ -1,0 +1,83 @@
+﻿using System;
+using System.Data;
+using System.Data.OleDb;
+using System.IO;
+using System.Web;
+
+public partial class modules_staff_actExcelUploadStdRegist : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string _action = Request["action"];
+        switch (_action)
+        {
+            //case "uploadexcel": uploadExcelFile(_subjectId); break;
+            case "connectstdlistexcel": connectstdlistexcel(); break;
+            
+        }
+       
+    }
+
+
+    /// <summary>
+    /// Auther : Nopparat.j
+    /// Date   : 2014-10-20.
+    /// Perpose: ตรวจรายละเอียดในเอกเซลว่าถูกต้องหรือไม่
+    /// Method : ShowDataUpload
+    /// Sample : -
+    /// </summary>
+    public string connectstdlistexcel()
+    {
+        string _fileName = Request["fileName"];
+        string _sectionId = Request["sectionId"];
+        string _positionId = Request["positionId"];
+        string _html = "";
+        string _no = string.Empty, _studentCode = string.Empty;
+        string _fullName = string.Empty, _year = string.Empty, _facultyId = string.Empty;
+        string _programme = string.Empty, _grade = string.Empty, _comment = string.Empty;
+
+    
+        string _currentPath = Server.MapPath("~/file/");
+        string _urlFile = _currentPath + _fileName;
+        string xConnStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + _urlFile + ";" + "Extended Properties=\"Excel 12.0 Xml;HDR=Yes\"";
+        OleDbConnection objXConn = new OleDbConnection(xConnStr);
+        objXConn.Open();
+        OleDbCommand objCommand2 = new OleDbCommand("SELECT * FROM [datastudent$]", objXConn);
+        OleDbCommand objCommand = new OleDbCommand();
+        objCommand = objCommand2;
+        OleDbDataReader reader;
+        reader = objCommand.ExecuteReader();
+
+        while (reader.Read()) // อ่านข้อมูลตามหัวคอลัมน์
+        {
+  
+            _studentCode = GetValueFromReader(reader, "studentCode");
+            _html += ActUI.addStudentRegistTemp(_studentCode, _sectionId, _positionId);
+
+        }
+
+        reader.Close();
+        objXConn.Close();
+
+        try
+        {   // อ่านไฟล์เอกเซล
+        }
+        catch (Exception ex)
+        {
+            _html = ex.Message;
+        }
+
+        return _html;
+    }
+
+
+
+    protected string GetValueFromReader(OleDbDataReader myreader, string stringValue)
+    {
+        object val = myreader[stringValue];
+        if (val != DBNull.Value)
+            return val.ToString();
+        else
+            return "";
+    }
+}

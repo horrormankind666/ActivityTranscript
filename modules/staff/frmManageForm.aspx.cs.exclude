@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class modules_staff_frmManageForm : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Login _userInfo = new Login("staff");
+        Page.StylesRegister("Bootstrap", "DataTable", "Evaluation");
+        Page.ScriptsRegister("Bootstrap", "DataTable", "Evaluation");
+        divBanner.InnerHtml = Page.Banner();
+        divBreadcrumb.InnerHtml = EvaluationUI.Breadcrumb(_userInfo.DocumentYear, _userInfo.DocumentSemester);
+        //divNavbar.InnerHtml = EvaluationUI.Staff.StaffContentNavBar("frmEvaluation.aspx", Request.Params["year"], Request.Params["semester"]);
+        divSiteMenu.InnerHtml = EvaluationUI.SideMenu();
+        if (Request.Params.AllKeys.Contains("formid")) 
+        {
+            var _formInfo = EvaluateDB.Evaluate.getEvaluateInfo(Request["formid"]);
+
+            txtEvaNameTh.Value = _formInfo["modelNameTh"].ToString();
+            txtEvaNameEn.Value = _formInfo["modelNameEn"].ToString();
+            txtEvaDescTh.Value = _formInfo["explanationNameTh"].ToString();
+            txtEvaDescEn.Value = _formInfo["explanationNameEn"].ToString();
+
+            if (_formInfo["modelTypeId"].Equals("TYS001"))
+            {
+                divEvaluateSubject.InnerHtml = EvaluationUI.Evaluate.RenderEditableQuestion(Request["formid"]);
+                divEvaluateTeacher.InnerHtml = EvaluationUI.Evaluate.GetListQuestion(_userInfo.DocumentYear, _userInfo.DocumentSemester, "TYS002");
+            }
+            else
+            {
+                divEvaluateTeacher.InnerHtml = EvaluationUI.Evaluate.RenderEditableQuestion(Request["formid"]);
+                divEvaluateSubject.InnerHtml = EvaluationUI.Evaluate.GetListQuestion(_userInfo.DocumentYear, _userInfo.DocumentSemester, "TYS001");
+            }
+        }
+        else
+        {
+            divEvaluateSubject.InnerHtml = EvaluationUI.Evaluate.GetListQuestion(_userInfo.DocumentYear, _userInfo.DocumentSemester, "TYS001");
+            divEvaluateTeacher.InnerHtml = EvaluationUI.Evaluate.GetListQuestion(_userInfo.DocumentYear, _userInfo.DocumentSemester, "TYS002");
+        }
+        divFooter.InnerHtml = Page.Footer();
+    }
+}

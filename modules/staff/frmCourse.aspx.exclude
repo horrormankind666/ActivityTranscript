@@ -1,0 +1,72 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmCourse.aspx.cs" Inherits="modules_staff_Default" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Evauation</title>
+    <link rel="shortcut icon" href="images/logo.png" />
+    <script src="../../scripts/modules/staff/frmCourseScript.js"></script>
+</head>
+<body>
+    <div runat="server" id="divBanner" class="container-fulid"></div>
+    <div class="container-fulid site-content">
+        <div class="side-menu-panel" id="sideMenu" runat="server"></div>
+        <div class="side-content-panel">
+            <div id="divBreadcrumb" runat="server"></div>
+            <div id="divNavbar" runat="server"></div>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="divContent">
+                    <table class="tblCourse table table-hover table-condensed" style="width: 100%;">
+                        <thead>
+                            <tr style="display: none;">
+                                <th>รายวิชา</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div runat="server" id="divFooter" class="container-fulid"></div>
+</body>
+</html>
+<script>
+    $(function () {
+        <%/*****************************************
+           reference document : https://datatables.net/
+           *****************************************/%>
+        <%//create datatable object%>
+        $(".tblCourse").DataTable({
+            ordering: false,
+            ajax: {
+                url: '../datas/SubjectHandler.ashx',
+                data: {
+                    action: 'GetSubjectSearchList',
+                    <%--year: '<%=Request.Cookies["year"].Value%>',
+                    semester: '<%=Request.Cookies["semester"].Value%>'--%>
+                }
+            },
+            columns: [
+                { data: "content" }
+            ]
+        });
+
+        // ผูกฟังก์ชั่นการจัดการกับปุ่มต่างๆภายในตาราง
+        $(".tblCourse").DataTable().on("draw.dt", function () {
+            $(".btnConfigTeacher").unbind("click").click(function () {
+                var subjectId = $(this).parents(".divSubject").data("subjectid");
+
+                window.open(
+                    Url.Combine("frmManageTeacher.aspx",
+                    {
+                        <%--year: '<%=Request.Cookies["year"].Value%>',
+                        semester: '<%=Request.Cookies["semester"].Value%>',--%>
+                        subjectId: subjectId
+                    }),
+                    "_blank");
+            });
+        });
+    });
+</script>

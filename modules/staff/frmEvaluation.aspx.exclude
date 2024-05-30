@@ -1,0 +1,149 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmEvaluation.aspx.cs" Inherits="modules_staff_frmEvaluation" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Evaluation</title>
+</head>
+<body>
+    <div runat="server" id="divBanner" class="container"></div>
+    <div class="container-fulid site-content">
+        <div class="side-menu-panel" id="sideMenu" runat="server"></div>
+        <div class="side-content-panel">
+            <div id="divBreadcrumb" runat="server"></div>
+            <div id="divNavbar" runat="server"></div>
+            <div class="tab-content row">
+                <div role="tabpanel" class="tab-pane active" id="divContent">
+                    <ul class="nav nav-tabs pull-right">
+                        <li role="presentation" class="active">
+                            <a id="btnAddNewEva" style="background-color: #5cb85c; color: #fff; border-radius: 15px 15px 0 0;" runat="server">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                เพิ่มแบบประเมิน
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-info btnEvaluate active" data-evatype="TYS001">แบบประเมินรายวิชา</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default btnEvaluate" data-evatype="TYS002">แบบประเมินอาจารย์</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="divEvaluation col-sm-12">
+                            <table class="table table-striped tblEvaluate" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10em; vertical-align: middle; text-align: center;" rowspan="2">รหัสแบบประเมิน</th>
+                                        <th style="vertical-align: middle; text-align: center;" rowspan="2">อ้างอิงรายวิชา</th>
+                                        <th colspan="2" style="text-align: center;">แก้ไขแบบประเมิน</th>
+                                        <th rowspan="2" style="text-align: center;">#</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: center;">วันที่</th>
+                                        <th style="text-align: center;">โดย</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div runat="server" id="divFooter" class="container-fulid"></div>
+</body>
+</html>
+<script>
+    $(function () {
+        $(".btnEvaluate").click(function () {
+            $(".btnEvaluate").removeClass("active");
+            $(this).addClass("active");
+            var index = $(".btnEvaluate").index(this);
+            if (!$(this).hasClass("btn-info")) {
+                $(this).removeClass("btn-default").addClass("btn-info");
+                $(".btnEvaluate").not(this).removeClass("btn-info").addClass("btn-default");
+
+                var evaluateType = $(".btnEvaluate.btn-info").attr("data-evatype");
+                var url = "../datas/EvaluateHandler.ashx?" + $.param({
+                    action: "GetEvaluateList",
+                    evaluateType: evaluateType
+                });
+
+                $(".tblEvaluate").DataTable().ajax.url(url).load(function () { setDatatableEvent(); });
+            }
+        });
+
+        <%/*****************************************
+           reference document : https://datatables.net/
+           *****************************************/%>
+        <%//create datatable object%>
+        $(".tblEvaluate").DataTable({
+            searching: false,
+            lengthChange: false,
+            processing: true,
+            ajax: {
+                url: "../datas/EvaluateHandler.ashx?" + $.param({
+                    action: "GetEvaluateList",
+                    evaluateType: "TYS001"
+                })
+            },
+            columns: [
+                { data: "formId" },
+                {
+                    data: "subjectCombind",
+                    render: function (data) {
+                        var str = "";
+                        $.each(data.split(","), function (key, obj) {
+                            str += '<span class="label label-warning">' + obj + '</span> ';
+                        });
+
+                        return str;
+                    }
+                },
+                { data: "modifiedDate" },
+                { data: "modifiedBy" },
+                {
+                    render: function (data, type, row) {
+                        return "<div class='btn-group'>" +
+                                    "<button class='btn btn-info btnView' data-form-id='" + row.formId + "'><span class='glyphicon glyphicon-search'></span></button>" +
+                                    "<button class='btn btn-info btnEdit' data-form-id='" + row.formId + "'><span class='glyphicon glyphicon-pencil'></span></button>" +
+                                    "<button class='btn btn-info btnPublish' data-form-id='" + row.formId + "'><span class='glyphicon glyphicon-cloud-upload'></span></button>" +
+                                "</div>";
+                    }
+                }
+            ]
+        });
+
+        // ผูกฟังก์ชั่นการจัดการกับปุ่มต่างๆภายในตาราง
+        $(".tblEvaluate").DataTable().on("draw.dt", function () { setDatatableEvent(); });
+
+        function setDatatableEvent(settings, json) {
+            $(".tblEvaluate").find(".btnView").unbind("click").click(function () {
+                var url = Url.Combine("frmPreviewEvaluate.aspx", {
+                    formid: $(this).attr("data-form-id")
+                });
+                window.open(url, "_blank");
+            });
+            $(".tblEvaluate").find(".btnEdit").unbind("click").click(function () {
+                var url = Url.Combine("frmManageForm.aspx", {
+                    formid: $(this).attr("data-form-id"),
+                    typeid: $(".btnEvaluate.active").data("evatype")
+                });
+                window.open(url, "_blank");
+            });
+            $(".tblEvaluate").find(".btnPublish").unbind("click").click(function () {
+                var url = Url.Combine("frmPublishForm.aspx",
+                    {
+                        formid: $(this).attr("data-form-id")
+                    }
+                );
+                window.open(url, "_blank");
+            });
+        }
+    });
+</script>

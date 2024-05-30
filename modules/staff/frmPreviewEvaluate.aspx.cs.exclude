@@ -1,0 +1,51 @@
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class modules_staff_frmPreviewEvaluate : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Login _userInfo = new Login("staff");
+        Page.StylesRegister("Bootstrap", "DataTable", "Evaluation");
+        Page.ScriptsRegister("Bootstrap", "DataTable", "Evaluation");
+
+        string _evaluateTypeId = Request.Params["evaluate-type"];
+        DataSet _ds = new DataSet();
+        DataTable _questionDt;
+        DataTable _optionsDt;
+        if (Request.Params.AllKeys.Contains("formid"))
+        {
+            var _evaInfo = EvaluateDB.Get_EvaluateInfo(Request.Params["formid"]);
+            _evaluateTypeId = _evaInfo["modelTypeId"].ToString();
+            _questionDt = EvaluateDB.Sp_evaGetListFormQuestionFaculty(_evaInfo["id"].ToString()).Tables[0].Copy();
+        }
+        else
+        { 
+            _questionDt = Newtonsoft.Json.JsonConvert.DeserializeObject<DataTable>(Request.Params["custom-questions"]);
+
+            if (_questionDt.Columns.Count > 0)
+            {
+                _questionDt.Columns["question-type"].ColumnName = "questionTypeId";
+                _questionDt.Columns["question-name-th"].ColumnName = "questionTName";
+                _questionDt.Columns["question-name-en"].ColumnName = "questionEName";
+                _questionDt.Columns["key-code"].ColumnName = "keyCode";
+                _questionDt.Columns["options"].ColumnName = "answerXML";
+                _questionDt.Columns["max-range"].ColumnName = "rankMax";
+            }
+        }
+
+        var _evaModelTypeDs = MasterDataDB.get_EvaModelType_Info(_evaluateTypeId);
+        lblEvaTitle.InnerHtml = _evaModelTypeDs["nameTh"].ToString();
+
+        _ds.Tables.Add(_questionDt);
+
+        divQuestion.InnerHtml = EvaluationUI.Evaluate.GetListQuestion(_userInfo.DocumentYear, _userInfo.DocumentSemester, _evaluateTypeId, Request.Params["formid"], _ds);
+    }
+}

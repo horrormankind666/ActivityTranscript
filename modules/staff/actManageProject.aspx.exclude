@@ -1,0 +1,136 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="actManageProject.aspx.cs" Inherits="modules_staff_actManageProject" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+
+    
+</head>
+<body>
+
+
+ <form id="form1"   runat="server"  >
+
+ <div class='container-fluid divNewProject'>
+
+    <div id='divBarMenu'  runat="server" >
+    </div>
+
+        
+    <div id='divSlideBarMenu'  class="col-md-3 page-header " runat="server" >
+    </div>
+     <%--<div class="col-md-9 ">
+         <h1 class='page-header'>
+             เพิ่มข้อมูลโครงการใหม่</h1>
+         <div class="form-group row">
+             <div class="col-xs-6" id="divAcaYear" runat="server">
+             </div>
+             <div class="col-xs-6" id="divSemester" runat="server">
+             </div>
+         </div>
+         <div class='row '>
+             <div class="form-group col-xs-12 ">
+                 <label for="txtProjectNameTh">
+                     ชื่อโครงการภาษาไทย</label>
+                 <span style='color: Red; font-weight: bold;'>*</span>
+                 <input type="text" class="form-control txtProjectNameTh" placeholder="ชื่อโครงการภาษาไทย"
+                     required />
+             </div>
+         </div>
+         <div class='row'>
+             <div class="form-group col-xs-12">
+                 <label for="txtProjectNameEn">
+                     ชื่อโครงการภาษาอังกฤษ</label>
+                 <span style='color: Red; font-weight: bold;'>*</span>
+                 <input type="text" class="form-control txtProjectNameEn" placeholder="ชื่อโครงการภาษาอังกฤษ"
+                     required />
+             </div>
+         </div>
+         <div class='row'>
+             <div class="form-group col-xs-12">
+                 <label for="txtProjectDetail">
+                     รายละเอียดของโครงการ</label>
+                 <input type="text" class="form-control txtProjectDetail" placeholder="Project name" />
+             </div>
+         </div>
+         <div class="row">
+             <div class="form-group  col-xs-12" id="divInstitute" runat="server">
+             </div>
+         </div>
+         <div class="row">
+             <div class="form-group col-xs-4" id="divTargetGroup" runat="server">
+             </div>
+             <div class="col-xs-4" id="divProjectType" runat="server">
+             </div>
+             <div class="col-xs-4" id="divProjectStatus" runat="server">
+             </div>
+         </div>
+         </br>
+         <button class="btn btn-info btnSetProject btn-block" type="button">
+             บันทึกข้อมูล</button>
+         <input class="btn btn-warning btn-block" type="button" value="ย้อนกลับ" />
+         </p>
+     </div>
+ </div>--%>
+
+</form>
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+
+   
+
+    $(function () {
+        //$("#form1").validator();
+
+        $('.btnSetProject').click(function () {
+            setProject();
+        });
+
+    });
+
+
+    // Auther : เจตน์ เครือชะเอม
+    // Date   : 5 พ.ค. 2560
+    // Perpose: Insert ข้อมูลโครงการใหม่
+    // Method : setProject
+    function setProject() {
+
+        var _post = $.param({ action: "setProject"
+                             , uId:"U0001"
+                             , acaYear: $(".divNewProject").find(".ddlAcaYear").val()
+                             , semester: $(".divNewProject").find(".ddlSemester").val()
+                             , instituteId: $(".divNewProject").find(".ddlInstitute").val()
+                             , projectNameTh: $(".divNewProject").find(".txtProjectNameTh").val()
+                             , projectNameEn: $(".divNewProject").find(".txtProjectNameEn").val()
+                             , projectDetail: $(".divNewProject").find(".txtProjectDetail").val()
+                             // , amountMax: $(".divNewProject").find(".txtMaxAmount").val()
+                             , projectTypeId: $(".divNewProject").find(".ddlProjectType").val()
+                             , projectStatusId: $(".divNewProject").find(".ddlProjectStatus").val()
+                             , targetGroupId: $(".divNewProject").find(".ddlTargetGroup").val()
+                            });
+ 
+                            $.ajax({
+                                type: "POST",
+                                url: "actProjectHandler.ashx",
+                                data: _post,
+                                //beforeSend: function () { loading(); },
+                                success: function (data) {
+                                    alert(data);
+                                    window.open("actProjectList.aspx", "_self");
+                                },
+                                error: function (data) {
+                                    alert(jQuery.error);
+                                }
+                            });
+
+    }
+
+</script>
+
+

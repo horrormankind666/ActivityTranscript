@@ -1,0 +1,35 @@
+﻿<%@ WebHandler Language="C#" Class="testHandler" %>
+
+using System;
+using System.Web;
+using System.Data;
+using WeMahidolAppConnector;
+using Newtonsoft.Json;
+public class testHandler : IHttpHandler {
+
+    public void ProcessRequest (HttpContext context) {
+
+        context.Response.ContentType = "application/json";
+
+        WeMahidolApplicationOptions options = new WeMahidolApplicationOptions()
+        {
+            ClientID = "MU_CMS_SIT",
+            ClientSecret = "af54b443-9102-4b88-a6c2-893bf05cbc9e",
+            Lang = "EN",
+            EndpointUrl = DataHubConnect.EndpointUrl.SIT_BASE_URL
+        };
+        DataHubConnect _connect = new DataHubConnect(options);
+        DataTable model = _connect.CalendarEvents.GetTable();
+
+        // the type  'DataTable' is defined in an assembly that is not referenced.
+        context.Response.Write(JsonConvert.SerializeObject(model));
+
+    }
+
+    public bool IsReusable {
+        get {
+            return false;
+        }
+    }
+
+}

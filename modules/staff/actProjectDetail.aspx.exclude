@@ -1,0 +1,321 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="actProjectDetail.aspx.cs" Inherits="modules_staff_actProjectDetail" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+ 
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+</head>
+<body>
+    <form id="form1" runat="server">
+
+
+
+
+    <div class='container-fluid '>
+ <div id='divBarMenu'  runat="server" >
+
+</div>
+
+        
+        <div id='divSlideBarMenu'  class="col-md-3 page-header " runat="server" >
+        </div>
+
+        <div  class="col-md-9" >
+
+                 <h1 class='page-header'>รายละเอียดโครงการ</h1>
+                 <h3>โครงการ : ฝึกอบรมนักศึกษาช่วยงานวันมหิดลวิชาการ 2559 (ฝ่ายลงทะเบียน) <small>ปีการศึกษา 2556 ภาคการศึกษา 1</small></h3>
+     
+                 <table class="table">
+                <caption><h4>แหล่งทุนของโครงการ</h4></caption>
+                <thead>
+
+                <tr>
+                <th class='col-sm-2'>
+                ลำดับ
+                </th>
+                <th class='col-sm-4'>
+                ชื่อแหล่งทุน
+                </th>
+                <th class='col-sm-3'>
+                งบประมาณที่ได้รับ
+                </th>
+                <th class='col-sm-3'>
+                งบประมาณที่ใช้จริง
+                </th>
+
+                </tr>
+                 </thead>
+                <tr >
+                <th scope="row">
+                1
+                </th>
+                <td >
+                    รายได้จากสโมสร
+                </td>
+
+                <td >
+                    12000.00
+                </td>
+
+                <td >
+                    2000.00
+                </td>
+
+
+                </tr>
+
+                 <tr >
+                <th scope="row">
+                2
+                </th>
+                <td >
+                    รายได้จากสโมสร
+                </td>
+
+                <td >
+                    5000.00
+                </td>
+
+                <td >
+                    3000.00
+                </td>
+
+  
+
+                </tr>
+                </table>
+
+
+
+
+                <table class="table">
+                <caption><h4>Character ที่เกี่ยวข้อง</h4></caption>
+                <thead>
+
+                <tr>
+                <th class='col-sm-2'>
+                ลำดับ
+                </th>
+                <th class='col-sm-4'>
+                ชื่อ Character 
+                </th>
+                <th>
+                ชื่อตัวย่อ
+                </th>
+   
+                </tr>
+                 </thead>
+                <tr >
+                <th scope="row">
+                1
+                </th>
+                <td >
+                    ด้านวัฒนธรรม
+                </td>
+
+                <td >
+                    T
+                </td>
+                </tr>
+                <tr>
+                <th scope="row">
+                2
+                </th>
+                <td >
+                    ด้านศิลปกรรม
+                </td>
+
+                <td >
+                    A
+                </td>
+
+   
+
+                </tr>
+                </table>
+
+
+
+                <table class="table">
+                <caption><h4>Indicator ที่เกี่ยวข้อง</h4></caption>
+                <thead>
+
+                <tr>
+                <th class='col-sm-2'>
+                ลำดับ
+                </th>
+                <th class='col-sm-4'>
+                ชื่อ Indicator
+                </th>
+                <th class='col-sm-3'>
+                ชื่อตัวย่อ
+                </th>
+                <th class='col-sm-3'>
+                จำนวนชั่วโมงที่ใช้จริง
+                </th>
+                </tr>
+                 </thead>
+                <tr >
+                <th scope="row">
+                1
+                </th>
+                <td >
+                    ทดสอบตัวชี้วัดด้าน M
+                </td>
+                <td >
+                    M
+                </td>
+                <td >
+                    2
+                </td>
+                </tr>
+
+                <tr >
+                <th scope="row">
+                2
+                </th>
+                <td >
+                    ทดสอบตัวชี้วัดด้าน A
+                </td>
+
+                <td >
+                    A
+                </td>
+
+                <td >
+                1  
+                </td>
+                </tr>
+
+                <tr >
+                <th scope="row">
+                3
+                </th>
+                <td >
+                    ทดสอบตัวชี้วัดด้าน H
+                </td>
+
+                <td >
+                    H
+                </td>
+
+                <td >
+                3 
+                </td>
+                </tr>
+                </table>
+
+
+
+
+                <table class="table">
+                <caption><h4>Device ที่ใช้งานกับโครงการ</h4></caption>
+                <thead>
+
+                <tr>
+                <th class='col-sm-2'>
+                ลำดับ
+                </th>
+                <th class='col-sm-2'>
+                ชื่อเครื่อง
+                </th>
+                <th class='col-sm-2'>
+                เลขเครื่อง
+                </th>
+                <th class='col-sm-3'>
+                วันเวลาที่ใช้เริ่มกิจกรรม
+                </th>
+                <th class='col-sm-3'>
+                วันเวลาที่สิ้นสุดกิจกรรม
+                </th>
+                </tr>
+                 </thead>
+                <tr >
+                <th scope="row">
+                1
+                </th>
+                <td >
+                    เครื่องที่ 1
+                </td>
+                <td >
+                    001
+                </td>
+                <td >
+                    30/04/2560 8:00
+                </td>
+                <td >
+                    30/04/2560 12:00
+                </td>
+                </tr>
+                </table>
+
+
+                 <table class="table">
+                <caption><h4>รูปภาพโครงการ</h4></caption>
+                <thead>
+
+                <tr>
+                <th class='col-sm-2'>
+                ลำดับ
+                </th>
+                <th class='col-sm-2'>
+                ชื่อรูปภาพ
+                </th>
+                <th class='col-sm-2'>
+                ชื่อไฟล์
+                </th>
+                <th class='col-sm-3'>
+                รายละเอียด
+                </th>
+                <th class='col-sm-3'>
+                ความสำคัญของรูปภาพ
+                </th>
+
+                </tr>
+                 </thead>
+                <tr >
+                <th scope="row">
+                1
+                </th>
+                <td >
+                    รูปกิจกรรมปลูกป่า
+                </td>
+                <td >
+                    Act001.jpg
+                </td>
+                <td >
+                    -
+                </td>
+                <td >
+                    1
+                </td>
+                </tr>
+                <tr >
+                <th scope="row">
+                1
+                </th>
+                <td >
+                    รูปกิจกรรมปลูกป่า 2
+                </td>
+                <td >
+                    Act002.jpg
+                </td>
+                <td >
+                    -
+                </td>
+                <td >
+                    2
+                </td>
+                </tr>
+                </table>
+
+        </div>
+    </div>
+
+    </form>
+</body>
+</html>

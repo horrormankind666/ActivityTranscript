@@ -1,0 +1,110 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="actManageSection.aspx.cs" Inherits="modules_staff_actManageSection" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+</head>
+<body>
+    <form id="form1" runat="server">
+     <div class='container-fluid '>
+    <div id='divBarMenu'  runat="server" >
+    </div>
+       <div id='divSlideBarMenu'  class="col-md-3 page-header " runat="server" >
+        </div>
+
+<div  class="col-md-9" >
+     <h1 class='page-header'>
+         จัดการข้อมูล Section ของโครงการ&nbsp;<small>ฝึกอบรมนักศึกษาช่วยงานวันมหิดลวิชาการ2559 (ฝ่ายลงทะเบียน)</small></h1>
+          
+
+          <div class="form-group row">
+         <div class="col-xs-6">
+             <label >
+                 ปีการศึกษา</label>
+                <label >
+                 2560</label>
+      
+         </div>
+         <div class="col-xs-6">
+             <label >
+                 ภาคการศึกษา</label>
+              <label >
+                 1</label>
+      
+         </div>
+     </div>
+
+
+      <div class='row'>
+         <div class="form-group col-xs-12">
+             <label for="txtSectionNameTh">
+                 ชื่อ Section ภาษาไทย</label>
+             <input type="text" class="form-control" id="txtSectionNameTh" placeholder="ชื่อ Section" />
+         </div>
+     </div>
+
+           <div class='row'>
+         <div class="form-group col-xs-12">
+             <label for="txtSectionNameTh">
+                 ชื่อ Section ภาษาอังกฤษ</label>
+             <input type="text" class="form-control" id="Text1" placeholder="ชื่อ Section" />
+         </div>
+     </div>
+
+       <div class='row'>
+         <div class="form-group col-xs-4">
+             <label for="txtStartDateSection">
+                 วันที่เริ่มต้น</label>
+             <input type="text" class="form-control datepicker"   id="txtStartDateSection" placeholder="DateTime"  />
+         </div>
+         <div class="form-group col-xs-4">
+             <label for="txtEndDateSection">
+                 วันที่สิ้นสุด</label>
+             <input type="text" class="form-control datepicker" id="txtEndDateSection" placeholder="DateTime"  />
+         </div>
+
+         <div class="form-group col-xs-4">
+             <label for="txtHourSection">
+                 จำนวนชั่วโมงของโครงการ</label>
+             <input type="text" class="form-control" id="txtHourSection" placeholder="จำนวนชั่วโมง" disabled />
+         </div>
+
+     </div>
+
+
+     <div class='row'>
+         <div class="form-group col-xs-12">
+             <label for="txtPlaceSection">
+                 สถานที่จัด</label>
+             <input type="text" class="form-control" id="txtPlaceSection" placeholder="สถานที่จัด" />
+         </div>
+     </div>
+      </br>
+      <p class="pull-right">
+          
+             <input class="btn btn-default" type="button" value="ย้อนกลับ"/>
+             <input class="btn btn-default" type="button" value="บันทึกข้อมูล"/>
+      </p>
+
+      </div>
+       </div>
+    </form>
+
+
+
+
+</body>
+</html>
+
+    <script>
+
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            startDate: '-3d',
+            pick12HourFormat: true
+        });
+
+    </script>

@@ -1,0 +1,36 @@
+@grid-default-color: #ddd;
+@grid-border-size: 0.5px;
+@grid-border-style: solid;
+.grid{
+    display: table;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    border-spacing: 0px;
+    .grid-default{
+        border-left: @grid-border-style @grid-border-size @grid-default-color;
+        border-right: @grid-border-style @grid-border-size @grid-default-color;
+        border-bottom: @grid-border-style @grid-border-size @grid-default-color;
+        >.grid-row{
+            >.grid-header{
+                background-color: @grid-default-color;
+                }
+            >.grid-cell{
+              
+            }
+        }
+    }
+    >.grid-row{
+        display: table-row;
+        border-right: @grid-border-style @grid-border-size;
+        border-color: inherit;
+        >.div{
+            display: table-cell;
+            padding: 0px 5px;
+            margin: 0px;
+            border-left: @grid-border-style @grid-border-size;
+            border-color: inherit;
+            border-spacing: 0px;
+        }
+    }
+}

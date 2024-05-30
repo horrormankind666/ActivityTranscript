@@ -1,0 +1,30 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="modules_staff_Default" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+</head>
+<body>
+ <%--   <input type="hidden" id="hddResponseMessage" runat="server" />--%>
+<%--    <div runat="server" id="divBanner" class="container-fulid"></div>
+    <div class="container-fulid site-content">
+        <div class="side-menu-panel" id="divSideMenu" runat="server"></div>
+        <div class="side-content-panel">
+            <div id="divResponseMessage" class="text-center" style="font-size: 24px; color: red;" runat="server"></div>
+            <div class="container-fluid">
+                Content!!
+            </div>
+        </div>
+    </div>--%>
+    <div runat="server" id="divFooter" class="container-fulid"></div>
+</body>
+</html>
+<script>
+//    $(function () {
+//        if($("#hddResponseMessage").val() != "")
+//            Page.Toast($("#hddResponseMessage").val());
+//    });
+</script>

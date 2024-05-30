@@ -1,0 +1,169 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmManageTeacher.aspx.cs" Inherits="modules_staff_frmManageTeacher" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Evaluation - อาจารย์</title>
+    <style>
+        .divTeachers li {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div runat="server" id="divBanner" class="container-fulid"></div>
+    <div class="container-fulid site-content">
+        <div class="side-menu-panel" id="sideMenu" runat="server"></div>
+        <div class="side-content-panel">
+            <div id="divBreadcrumb" runat="server"></div>
+            <div id="divNavbar" runat="server"></div>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="divContent">
+                    <div class="container-fluid" style="margin-top: 15px;">
+                        <div class="row col-sm-12">
+                            <h2 style="padding-left: 15px;">รายชื่ออาจารย์ประจำรายวิชา</h2>
+                            <ul class="nav nav-tabs">
+                                <li role="presentation" class="active" style="font-size: 24px;">
+                                    <a><span id="spnSubjectName" runat="server"></span></a>
+                                </li>
+                                <%--<li role="presentation" class="active pull-right">
+                                <a class="btnAddTeacher" style="background-color: #5cb85c; color: #fff; border-radius: 15px 15px 0 0;">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    เพิ่มอาจารย์
+                                </a>
+                            </li>
+                            <li role="presentation" class="active pull-right">
+                                <a class="btnUpdateTeacher" style="background-color: #31b0d5; color: #fff; border-radius: 15px 15px 0 0;">
+                                    <i class="glyphicon glyphicon-refresh"></i>
+                                    อัพเดทรายชื่ออาจารย์
+                                </a>
+                            </li>--%>
+                            </ul>
+                            <div class="container-fluid nav-tabs-content" style="padding-top: 2em; padding-bottom: 2em;">
+                                <div class="divTeachers"></div>
+                                <div class="pull-right">
+                                    <a class="btn btn-success btnSave">
+                                        <i class="glyphicon glyphicon-disk"></i>
+                                        บันทึก
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div runat="server" id="divFooter" class="container-fulid"></div>
+</body>
+</html>
+<script>
+    $(function () {
+        var _year = '<%=Request.Params["year"]%>';
+        var _semester = '<%=Request.Params["semester"]%>';
+        var _subjectid = '<%=Request.Params["subjectId"]%>';
+
+        $(".divTeachers").load(
+            "../datas/SubjectHandler.ashx",
+            {
+                action: "GetSubjectInstructors",
+                year: _year,
+                semester: _semester,
+                subjectid: _subjectid
+            },
+            function () {
+                var addTeacherPanel = $("<li>");
+                addTeacherPanel.append($("<input>").attr({
+                    "class": "no-border",
+                    "placeholder": "เพิ่มรายชื่ออาจารย์"
+                }));
+
+                $(".divTeachers ul").append(addTeacherPanel);
+                addTeacherPanel.find("input").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "../datas/MasterDataHandler.ashx",
+                            dataType: "json",
+                            data: {
+                                action: "GetInstructorsAutocompleteList",
+                                query: request.term
+                            },
+                            success: function (data) {
+                                response(data);
+                            }
+                        });
+                    },
+                    select: function (event, ui) {
+                        var list = $(this).parents("li");
+                        var liInstructor = $("<li>")
+                            .attr({
+                                "data-personid": ui.item.id,
+                                "data-name": ui.item.label,
+                                "data-action": "add"
+                            })
+                            .addClass("liNewInstructor")
+                            .append(ui.item.label)
+                            .append(
+                                $("<i>")
+                                .addClass("glyphicon glyphicon-remove btnRemoveInstructor")
+                                .css({
+                                    "margin-left": "10px",
+                                    "cursor": "pointer"
+                                })
+                            )
+                            .append(
+                                $("<span>")
+                                .addClass("label label-success")
+                                .css({
+                                    "margin-left": "10px"
+                                })
+                                .html("New!")
+                            );
+
+                        list.before(liInstructor);
+
+                        liInstructor.find(".btnRemoveInstructor").click(function () {
+                            $(this).parents("li").remove();
+                        });
+
+                        <%// ล้างค่ากล่องข้อความ และยกเลิกพฤติกรรมเบื้องต้นของกิจกรรม(Event) select autocomplete%>
+                        $(this).val('');
+                        event.preventDefault();
+                    }
+                });
+            });
+
+        <%// ผูกพฤติกรรมการทำงานของปุ่มบันทึก%>
+        $(".btnSave").click(function () {
+            var instructorArr = new Array();
+            $(".liNewInstructor").each(function (key, obj) {
+                instructorArr.push({
+                    id: $(obj).data("personid"),
+                    name: $(obj).data("name")
+                });
+            });
+
+            Page.Preload.Show();
+
+            $.post("../datas/SubjectHandler.ashx",
+                {
+                    action: "SetSubjectInstructors",
+                    year: _year,
+                    semester: _semester,
+                    subjectid: _subjectid,
+                    instructors: JSON.stringify(instructorArr)
+                },
+                function (response) {
+                    Page.Preload.Hide();
+                    Page.Toast({
+                        message: response.Message,
+                        css: {
+                        }
+                    });
+                });
+            console.log(instructorArr);
+        });
+    });
+</script>

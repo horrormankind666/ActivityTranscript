@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class modules_staff_actManageProject : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        Page.StylesRegister("Bootstrap", "DataTable", "ActivityTranscript");
+        Page.ScriptsRegister("Bootstrap", "DataTable", "ActivityTranscript");
+        divSlideBarMenu.InnerHtml = ActUI.loadSlidebarMenu();
+        divBarMenu.InnerHtml = ActUI.loadBarMenu();
+        divInstitute.InnerHtml = ActUI.getListInstitute();
+        divTargetGroup.InnerHtml = ActUI.getListTargetGroup();
+        divProjectType.InnerHtml = ActUI.getListProjectType();
+        divProjectStatus.InnerHtml = ActUI.getListProjectStatus();
+        divAcaYear.InnerHtml = ActUI.getListAcaYear();
+        divSemester.InnerHtml = ActUI.getListSemester(); // sias631 1/59
+    }
+}

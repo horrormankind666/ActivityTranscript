@@ -1,0 +1,24 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmReport.aspx.cs" Inherits="modules_staff_frmReport" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+</head>
+<body>
+    <div runat="server" id="divBanner" class="container-fulid"></div>
+    <div class="container-fulid site-content">
+        <div class="side-menu-panel" runat="server"></div>
+        <div class="side-content-panel">
+            <div id="divBreadcrumb" runat="server"></div>
+            <div id="divNavbar" runat="server"></div>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="divContent">divReport</div>
+            </div>
+        </div>
+    </div>
+    <div runat="server" id="divFooter" class="container-fulid"></div>
+</body>
+</html>
