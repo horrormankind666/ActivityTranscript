@@ -51,7 +51,24 @@
                       
                         }
 
+                        #divPosterATPoll .modal-dialog {
+                            margin: 30px auto !important;
+                        }
+                        #divPosterATPoll .modal-dialog,
+                        #divPosterATPoll .modal-body img {
+                            width: 600px !important;
+                        }
 
+                        @media (max-width: 627px) {
+                            #divPosterATPoll .modal-dialog {    
+                                padding-left: 14px;
+                                padding-right: 14px;
+                            }
+                            #divPosterATPoll .modal-dialog,
+                            #divPosterATPoll .modal-body img {
+                                width: 100% !important;
+                            }
+                        }
                     </style>
 </head>
 <body>
@@ -292,6 +309,17 @@
   </div>
 </div>
 
+<div id="divPosterATPoll" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: transparent; border: 0;border-radius: 0;">
+            <div class="modal-body divPosterATPollBody" style="padding: 0;">
+                <a href='https://forms.gle/DZNVLYf3EZk4B8yj8/' target='_blank'>
+                    <img alt='Responsive image' src='../../images/PosterATPoll.png' />
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -402,6 +430,8 @@
             //var _menuVal = $(this).data("menuval");
             //menuBarVal(_menuVal);
         });
+
+        $('#divPosterATPoll').modal({ show: true });
     }
 
     function getRequestAT() {
