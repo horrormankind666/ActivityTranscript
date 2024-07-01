@@ -443,10 +443,10 @@ public class ActUI
     /// Method : getListAcaYear
     /// Sample : N/A
     /// </summary>
-    public static string getListAcaYear(string _acaYear, string _isDisable)
+    public static string getListAcaYear(string _acaYear, string _isDisable, int topRow = 0)
     {
         StringBuilder _string = new StringBuilder();
-        DataSet _ds = ActDB.getListAcaYear();
+        DataSet _ds = ActDB.getListAcaYear(topRow);
         string _selectIndex = "";
         string _disabled = "";
         // กรณีหยกมาให้เปิด ให้ชั่วคราวจะ Comment หมดเพื่อให้คีย์ปี ย้อนหลัง
@@ -468,7 +468,7 @@ public class ActUI
             if (_acaYear == "00")
             {
                 _string.Append(@"<option value=''    >ทุกปีการศึกษา</option>");
-            }
+            }            
 
             foreach (DataRow _dr in _ds.Tables[0].Rows)
             {
@@ -4833,7 +4833,7 @@ public class ActUI
         //    _string.Append(getListAcaYear(_acaYear, ""));
         //}
 
-        _string.Append(getListAcaYear(_acaYear, "1")); // _string.Append(getListAcaYear(_acaYear, "1"));
+        _string.Append(getListAcaYear(_acaYear, (_acaYear == "current" ? "" : "1"), (_acaYear == "current" ? 2 : 0))); // _string.Append(getListAcaYear(_acaYear, "1"));
 
         _string.Append(@"               </div>
                                       <div class='form-group col-xs-6 '>

@@ -98,9 +98,11 @@ public class ActDB
         return DbConfiguration.ExecuteQuery("select * from fnc_actGetListProjectStatus()");
     }
 
-    public static DataSet getListAcaYear()
+    public static DataSet getListAcaYear(int topRow = 0)
     {
-        return DbConfiguration.ExecuteQuery("select distinct acaYear,(select case when month(getdate()) >= 8 then year(getdate())+543 else year(getdate())+543 - 1 end ) as currentAcaYear from [fnc_curGetListAcademicYearTerm]('')  order by acaYear desc");
+        string strTopRow = (topRow != 0 ? ("top " + topRow.ToString()) : string.Empty);
+        
+        return DbConfiguration.ExecuteQuery("select distinct " + strTopRow + " acaYear,(select case when month(getdate()) >= 8 then year(getdate())+543 else year(getdate())+543 - 1 end ) as currentAcaYear from [fnc_curGetListAcademicYearTerm]('')  order by acaYear desc");
     }
 
     public static DataSet getListSemester()
