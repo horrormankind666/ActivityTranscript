@@ -50,7 +50,7 @@
                             color: chocolate;
                       
                         }
-
+                        /*
                         #divPosterATPoll .modal-dialog {
                             margin: 30px auto !important;
                         }
@@ -69,6 +69,7 @@
                                 width: 100% !important;
                             }
                         }
+                        */
                     </style>
 </head>
 <body>
@@ -308,7 +309,7 @@
     </div>
   </div>
 </div>
-
+<!--
 <div id="divPosterATPoll" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="background-color: transparent; border: 0;border-radius: 0;">
@@ -320,7 +321,7 @@
         </div>
     </div>
 </div>
-
+-->
 
 
 
@@ -430,8 +431,9 @@
             //var _menuVal = $(this).data("menuval");
             //menuBarVal(_menuVal);
         });
-
+        /*
         $('#divPosterATPoll').modal({ show: true });
+        */
     }
 
     function getRequestAT() {
