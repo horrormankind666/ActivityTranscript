@@ -4833,7 +4833,7 @@ public class ActUI
         //    _string.Append(getListAcaYear(_acaYear, ""));
         //}
 
-        _string.Append(getListAcaYear(_acaYear, (_acaYear == "current" ? "" : "1"), (_acaYear == "current" ? 2 : 0))); // _string.Append(getListAcaYear(_acaYear, "1"));
+        _string.Append(getListAcaYear(_acaYear, (_acaYear == "current" ? "" : "1"), (_acaYear == "current" ? 1 : 0))); // _string.Append(getListAcaYear(_acaYear, "1"));
 
         _string.Append(@"               </div>
                                       <div class='form-group col-xs-6 '>
