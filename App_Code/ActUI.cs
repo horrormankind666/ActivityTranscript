@@ -1538,7 +1538,9 @@ public class ActUI
                                     <td >
                                      " + _drRow[_i]["description"] + @"
                                     </td>  ");
-                                _sumHourGrpIndicator += Convert.ToDouble(_drRow[_i]["hours"]);
+                                    if (!string.IsNullOrEmpty(_drRow[_i]["hours"].ToString()))
+                                        _sumHourGrpIndicator += Convert.ToDouble(_drRow[_i]["hours"]);
+
                                 if (_statusEdit != "N")
                                 {
                                     _string.Append(@"<td >
@@ -4833,10 +4835,20 @@ public class ActUI
         //    _string.Append(getListAcaYear(_acaYear, ""));
         //}
 
-        _string.Append(getListAcaYear(_acaYear, (_acaYear == "current" ? "" : "1"), (_acaYear == "current" ? 1 : 0))); // _string.Append(getListAcaYear(_acaYear, "1"));
+        Login login = new Login("staff");
+        string username = login.Username;
+        int acaYearRow = 1;
+        /*
+        if (username.Equals("salintip.sae") ||
+            username.Equals("suchada.chn"))
+            acaYearRow = 2;
+        */
+
+        _string.Append(getListAcaYear(_acaYear, (_acaYear == "current" ? "" : "1"), (_acaYear == "current" ? acaYearRow : 0))); // _string.Append(getListAcaYear(_acaYear, "1"));
 
         _string.Append(@"               </div>
                                       <div class='form-group col-xs-6 '>
+                                            " + username + @"
                                            " + getListSemester(_semester) + @"
                                       </div>
 

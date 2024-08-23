@@ -1394,7 +1394,7 @@ public class ActDB
 
     public static DataSet getListGroupIndicator()
     {
-        return DbConfiguration.ExecuteQuery("select * FROM [Infinity].[dbo].[vw_refActGroupIndicator] ");
+        return DbConfiguration.ExecuteQuery("select * FROM [Infinity].[dbo].[vw_refActGroupIndicator] where  cancelStatus is null");
     }
 
     public static DataSet getProjectForCount(string _acaYear, string _semester, string _facultyId, string _groupIndicatorId, string _groupCharacterId)
